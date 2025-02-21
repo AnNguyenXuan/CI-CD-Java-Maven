@@ -28,8 +28,8 @@ deploy:
 
 showlog:
   stage: showlog
-  dependencies: 
-    - deploy  # Chỉ nhận file từ build, không tải lại code từ repo
+  variables:
+    GIT_STRATEGY: none
   script:  
     - tail -n 1000 app.log
   tags:
