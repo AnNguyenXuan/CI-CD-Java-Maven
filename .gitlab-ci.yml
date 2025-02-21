@@ -14,8 +14,8 @@ build:
 
 deploy:  
   stage: deploy  
-  # variables:
-  #   GIT_STRATERY : noclone
+  variables:
+    GIT_STRATERY : none
   script:  
     - java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar
   tags:
