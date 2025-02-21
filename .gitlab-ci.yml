@@ -21,6 +21,7 @@ deploy:
     - build  # Chỉ nhận file từ build, không tải lại code từ repo
   script:  
     - ls -l target/  # Kiểm tra file có tồn tại không
+    - kill -9 $(ps -ef | grep "shoe-ShoppingCart-0.0.1-SNAPSHOT.jar" | grep -v grep | awk '{print $2}')
     - java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar
   tags:
     - ubuntu-server
