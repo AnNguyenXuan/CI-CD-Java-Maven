@@ -8,4 +8,6 @@ build:
   script:  
     - ls
     - pwd
+  tags:
+    - ubuntu-server
     
