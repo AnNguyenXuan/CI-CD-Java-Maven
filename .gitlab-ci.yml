@@ -26,3 +26,11 @@ deploy:
   tags:
     - ubuntu-server
 
+showlog:
+  stage: showlog
+  dependencies: 
+    - deploy  # Chỉ nhận file từ build, không tải lại code từ repo
+  script:  
+    - tail -n 1000 app.log
+  tags:
+    - ubuntu-server
