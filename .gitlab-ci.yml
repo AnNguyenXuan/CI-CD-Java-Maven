@@ -13,13 +13,12 @@ build:
     - ubuntu-server
 
 
-# deploy:  
-#   stage: deploy  
-#   variables:
-#     GIT_STRATERY : none
-#   script:  
-#     - sudo cp
-#     - mvn install -DskipTests=True
-#   tags:
-#     - ubuntu-server
+deploy:  
+  stage: deploy  
+  variables:
+    GIT_STRATERY : none
+  script:  
+    - java -jar install target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar
+  tags:
+    - ubuntu-server
     
