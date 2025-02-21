@@ -17,7 +17,8 @@ build:
 
 deploy:  
   stage: deploy  
-  dependencies: []  # Chỉ nhận file từ build, không tải lại code từ repo
+  dependencies: 
+    - build  # Chỉ nhận file từ build, không tải lại code từ repo
   script:  
     - ls -l target/  # Kiểm tra file có tồn tại không
     - java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar
