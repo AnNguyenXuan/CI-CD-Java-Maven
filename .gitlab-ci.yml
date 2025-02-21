@@ -18,7 +18,7 @@ deploy:
   variables:
     GIT_STRATERY : none
   script:  
-    - java -jar install target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar
+    - java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar
   tags:
     - ubuntu-server
     
