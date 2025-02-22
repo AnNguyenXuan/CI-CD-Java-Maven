@@ -20,7 +20,7 @@ deploy:
   dependencies: 
     - build  # Chỉ nhận file từ build, không tải lại code từ repo
   script:  
-    - ls -l target/  # Kiểm tra file có tồn tại không
+    - ls -l target/  # Kiểm tra file
     - kill -9 $(ps -ef | grep "shoe-ShoppingCart-0.0.1-SNAPSHOT.jar" | grep -v grep | awk '{print $2}')
     - nohup java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
   tags:
