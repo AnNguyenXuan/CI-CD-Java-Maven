@@ -13,7 +13,7 @@ build:
   variables:
     GIT_STRATEGY: clone  # Bước build cần clone code
   before_script:
-    - docker login -u $DOCKER_USER -p $DOCKER_PASS
+    - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
   script:  
     - docker build -t $IMAGE_NAME .
     - docker push $IMAGE_NAME
@@ -30,7 +30,7 @@ deploy:
   variables:
     GIT_STRATEGY: none  # Bước build cần clone code
   before_script:
-    - docker login -u $DOCKER_USER -p $DOCKER_PASS
+    - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
   # dependencies: 
   #   - build  # Chỉ nhận file từ build, không tải lại code từ repo
   script: 
