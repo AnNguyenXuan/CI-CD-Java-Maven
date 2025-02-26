@@ -29,6 +29,7 @@ deploy:
   stage: deploy  
   variables:
     GIT_STRATEGY: none  # Bước build cần clone code
+  when : manual
   before_script:
     - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
   # dependencies: 
@@ -49,6 +50,7 @@ showlog:
   stage: showlog
   variables:
     GIT_STRATEGY: none
+  when : manual
   script:  
     - docker logs --tail 1000 $CONTAINER_NAME
   tags:
