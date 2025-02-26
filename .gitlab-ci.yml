@@ -7,7 +7,7 @@ variables:
   DOCKER_USER : $docker_user
   DOCKER_PASS : $docker_password
   IMAGE_NAME : ${DOCKER_USER}/${CI_PROJECT_NAME}:${CI_COMMIT_SHORT_SHA}
-
+  CONTAINER_NAME: "shoeshop"
 build:  
   stage: build  
   variables:
@@ -23,22 +23,30 @@ build:
   tags:
     - ubuntu-server
 
-# deploy:  
-#   stage: deploy  
-#   dependencies: 
-#     - build  # Chỉ nhận file từ build, không tải lại code từ repo
-#   script:  
-#     - ls -l target/  # Kiểm tra file
-#     - kill -9 $(ps -ef | grep "shoe-ShoppingCart-0.0.1-SNAPSHOT.jar" | grep -v grep | awk '{print $2}')
-#     - nohup java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
-#   tags:
-#     - ubuntu-server
+deploy:  
+  stage: deploy  
+  variables:
+    GIT_STRATEGY: none  # Bước build cần clone code
+  before_script:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  # dependencies: 
+  #   - build  # Chỉ nhận file từ build, không tải lại code từ repo
+  script: 
+    - docker  pull $IMAGE_NAME
+    - docker stop $CONTAINER_NAME || true
+    - docker rm $CONTAINER_NAME || true
+    - docker run -d --name $CONTAINER_NAME -p 7777:8080 $IMAGE_NAME
+    # - ls -l target/  # Kiểm tra file
+    # - kill -9 $(ps -ef | grep "shoe-ShoppingCart-0.0.1-SNAPSHOT.jar" | grep -v grep | awk '{print $2}')
+    # - nohup java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
+  tags:
+    - ubuntu-server
 
-# showlog:
-#   stage: showlog
-#   variables:
-#     GIT_STRATEGY: none
-#   script:  
-#     - tail -n 1000 app.log
-#   tags:
-#     - ubuntu-server
+showlog:
+  stage: showlog
+  variables:
+    GIT_STRATEGY: none
+  script:  
+    - docker logs --tail 1000 $CONTAINER_NAME
+  tags:
+    - ubuntu-server
