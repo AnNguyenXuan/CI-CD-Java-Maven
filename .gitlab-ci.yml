@@ -1,12 +1,12 @@
 stages:  
   - build  
-  - deploy  
+  - deploy 
   - showlog
 
 variables:
   DOCKER_USER : $docker_user
   DOCKER_PASS : $docker_password
-  IMAGE_NAME : ${DOCKER_USER}/${CI_PROJECT_NAME}:${CI_COMMIT_SHORT_SHA}
+  IMAGE_NAME : ${DOCKER_USER}/${CI_PROJECT_NAME}:${CI_COMMIT_SHORT_SHA}_${CI_COMMIT_TAG}
   CONTAINER_NAME: "shoeshop"
 build:  
   stage: build  
@@ -22,6 +22,8 @@ build:
   #     - target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar  # Lưu JAR để dùng trong deploy
   tags:
     - ubuntu-server
+  only:
+    - tags
 
 deploy:  
   stage: deploy  
@@ -41,7 +43,8 @@ deploy:
     # - nohup java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
   tags:
     - ubuntu-server
-
+  only:
+    - tags
 showlog:
   stage: showlog
   variables:
@@ -50,3 +53,5 @@ showlog:
     - docker logs --tail 1000 $CONTAINER_NAME
   tags:
     - ubuntu-server
+  only:
+    - tags
